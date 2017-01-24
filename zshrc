@@ -1,3 +1,5 @@
+export TERM="xterm-256color"
+
 # Download antigen with git if it doesn't exist already
 if [ ! -r ~/.antigen/antigen.zsh ]; then
   [ ! command -v git > /dev/null 2>&1 ] ||
@@ -7,7 +9,7 @@ if [ ! -r ~/.antigen/antigen.zsh ]; then
   git clone https://github.com/zsh-users/antigen.git ~/.antigen
 fi;
 
-if [ ! -r ~/.config/base16-shell/base16-eighties.dark.sh ]; then
+if [ ! -r ~/.config/base16-shell/scripts/base16-eighties.sh ]; then
   [ ! command -v git > /dev/null 2>&1 ] ||
     (echo "Please install git." &&
     return;)
@@ -18,14 +20,10 @@ fi;
 if [ ! -r ~/.iterm2_shell_integration.zsh ]; then
   curl -L https://iterm2.com/misc/zsh_startup.in >> \
   ~/.iterm2_shell_integration.zsh
+  source ~/.iterm2_shell_integration.zsh
 fi;
 
-
 source $HOME/.antigen/antigen.zsh
-
-# prompt configs
-export PROMPT_ON_NEWLINE=true
-export ZLE_RPROMPT_INDENT=0
 
 # allow usage of C-q and C-s shortcuts other places
 stty -ixon
@@ -54,7 +52,7 @@ antigen apply
 which -s brew >> /dev/null
 if [ $? = 0 ]
   then
-    export PATH="$(brew --prefix homebrew/php/php56)"/bin:/usr/local/sbin:/usr/local/bin:$PATH
+    export PATH="$(brew --prefix homebrew/php/php70)"/bin:/usr/local/sbin:/usr/local/bin:$PATH
 fi
 
 export COMPOSER_DISABLE_XDEBUG_WARN=1
@@ -73,7 +71,7 @@ if type nvim >/dev/null 2>/dev/null; then
   export EDITOR=nvim
 fi
 
-BASE16_SHELL="$HOME/.config/base16-shell/base16-eighties.dark.sh"
+BASE16_SHELL="$HOME/.config/base16-shell/scripts/base16-eighties.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 
 alias art='php artisan'
@@ -88,5 +86,7 @@ function code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCodeInsiders" -
 
 export FZF_DEFAULT_COMMAND='(git ls-files && git ls-files -o --exclude-standard || ag -g "") 2> /dev/null'
 
-source ~/.iterm2_shell_integration.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export NVM_DIR="/Users/vinceruby/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
