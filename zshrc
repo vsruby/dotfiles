@@ -71,14 +71,9 @@ BASE16_SHELL="$HOME/.config/base16-shell/scripts/base16-eighties.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 
 alias art='php artisan'
-alias vsync='vagrant gatling-rsync-auto local'
-alias gfs='git stash -u && git pull && git stash drop'
 alias reload=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 alias ze="vim ~/.zshrc && reload"
 alias ve="vim ~/.vimrc"
-
-
-function code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCodeInsiders" --args $*; }
 
 export FZF_DEFAULT_COMMAND='(git ls-files && git ls-files -o --exclude-standard || ag -g "") 2> /dev/null'
 
