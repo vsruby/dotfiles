@@ -49,11 +49,7 @@ antigen theme jeffhertzler/zsh-themes agnoster
 
 antigen apply
 
-which -s brew >> /dev/null
-if [ $? = 0 ]
-  then
-    export PATH="$(brew --prefix homebrew/php/php70)"/bin:/usr/local/sbin:/usr/local/bin:$PATH
-fi
+export PATH=/usr/local/sbin:$PATH
 
 export COMPOSER_DISABLE_XDEBUG_WARN=1
 which -s composer >> /dev/null
