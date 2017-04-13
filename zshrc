@@ -31,8 +31,8 @@ stty start undef
 stty stop undef
 
 # fix for iterm c-h issue
-infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
-tic $TERM.ti
+# infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
+# tic $TERM.ti
 
 antigen use oh-my-zsh
 
