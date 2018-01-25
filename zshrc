@@ -81,3 +81,13 @@ export FZF_DEFAULT_COMMAND='(git ls-files && git ls-files -o --exclude-standard 
 
 export NVM_DIR="/Users/vinceruby/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+pt() {
+  if [ -f vendor/bin/phpunit ]; then
+    vendor/bin/phpunit "$@"
+  else
+    phpunit "$@"
+  fi
+}
+
+alias ptf='pt --filter'
