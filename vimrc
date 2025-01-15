@@ -54,10 +54,6 @@ call plug#begin(s:editor_root . '/plugged')
   " Comments
   Plug 'tpope/vim-commentary', { 'on': '<plug>Commentary' }
 
-  " Fuzzy search
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-  Plug 'junegunn/fzf.vim'
-
   " Better / search
   Plug 'junegunn/vim-pseudocl'
   Plug 'junegunn/vim-oblique'
