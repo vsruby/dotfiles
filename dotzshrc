@@ -1,0 +1,45 @@
+autoload -Uz compinit && compinit
+
+export TERM="xterm-256color"
+
+# Location of the history file
+HISTFILE=~/.zsh_history
+
+# Number of commands to save in the history file
+HISTSIZE=10000
+SAVEHIST=10000
+
+# Share history across sessions and write immediately
+setopt HIST_IGNORE_ALL_DUPS    # Ignore duplicate commands
+setopt SHARE_HISTORY           # Share history across all sessions
+setopt INC_APPEND_HISTORY      # Append commands to history immediately
+setopt HIST_REDUCE_BLANKS      # Remove extra blanks from commands
+setopt HIST_EXPIRE_DUPS_FIRST  # Expire duplicate commands first
+setopt HIST_VERIFY             # Require confirmation before running dangerous commands
+
+# -- ANTIDOTE --
+F=/usr/share/zsh-antidote/antidote.zsh; [ -f $F ] && . $F
+F=~/.antidote/antidote.zsh; [ -f $F ] && . $F
+
+antidote load
+# -- ANTIDOTE END
+
+ZSH_THEME="agnoster"
+
+# # Initialize Base16 Shell
+BASE16_SHELL="$HOME/.config/base16-shell/scripts/base16-eighties.sh"
+[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
+
+# -- ALIASES --
+alias cd="z"
+alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
+alias vi=vim
+
+# abbrev-alias -c ls="eza"
+abbrev-alias -c reload="source ~/.zshrc"
+# -- ALIASES END --
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+eval "$(zoxide init zsh)"
+
+[ -s "/home/vincentruby/.jabba/jabba.sh" ] && source "/home/vincentruby/.jabba/jabba.sh"
