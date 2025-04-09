@@ -1,0 +1,14 @@
+getantidote/use-omz
+ohmyzsh/ohmyzsh path:lib
+ohmyzsh/ohmyzsh path:plugins/brew
+ohmyzsh/ohmyzsh path:plugins/git
+ohmyzsh/ohmyzsh path:plugins/node
+ohmyzsh/ohmyzsh path:plugins/npm
+ohmyzsh/ohmyzsh path:plugins/sublime
+ohmyzsh/ohmyzsh path:plugins/volta
+ohmyzsh/ohmyzsh path:plugins/vscode
+
+mattmc3/ez-compinit
+momo-lab/zsh-abbrev-alias
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-completions
