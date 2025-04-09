@@ -10,7 +10,7 @@ ZSH_THEME="agnoster"
 
 # # Initialize Base16 Shell
 BASE16_SHELL="$HOME/.config/base16-shell/scripts/base16-eighties.sh"
-[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
+[[ -s $BASE16_SHELL ]] && . $BASE16_SHELL
 
 # -- ALIASES --
 alias au="antidote update"
@@ -29,4 +29,4 @@ alias ze="subl ~/.zshrc"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "$(zoxide init zsh)"
 
-[ -s "/home/vincentruby/.jabba/jabba.sh" ] && source "/home/vincentruby/.jabba/jabba.sh"
+[[ -s "$HOME/.jabba/jabba.sh" ]] && . "$HOME/.jabba/jabba.sh"
