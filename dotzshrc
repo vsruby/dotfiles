@@ -1,7 +1,5 @@
 autoload -Uz compinit && compinit
 
-export TERM="xterm-256color"
-
 # Location of the history file
 HISTFILE=~/.zsh_history
 
