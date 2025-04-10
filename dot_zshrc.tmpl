@@ -4,11 +4,11 @@ autoload -Uz compinit && compinit
 F=~/.antidote/antidote.zsh; [ -f $F ] && . $F
 
 antidote load
-# -- ANTIDOTE END
+# -- ANTIDOTE END --
 
 ZSH_THEME="agnoster"
 
-# # Initialize Base16 Shell
+# Initialize Base16 Shell
 BASE16_SHELL="$HOME/.config/base16-shell/scripts/base16-eighties.sh"
 [[ -s $BASE16_SHELL ]] && . $BASE16_SHELL
 
@@ -26,7 +26,21 @@ alias ze="subl ~/.zshrc"
 # -- ABBREV ALIASES --
 # -- ABBREV ALIASES END --
 
+{{ if eq .chezmoi.os "linux" -}}
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+{{ else -}}
+eval "$(/opt/homebrew/bin/brew shellenv)"
+{{ end -}}
 eval "$(zoxide init zsh)"
 
 [[ -s "$HOME/.jabba/jabba.sh" ]] && . "$HOME/.jabba/jabba.sh"
+
+{{ if .nvm.enabled }}source $(brew --prefix nvm)/nvm.sh export NVM_DIR=$HOME/.nvm{{ end }}
+{{ if eq .chezmoi.hostname "zylo-vince-ruby" }}
+export PATH="$HOME/Library/Python/3.11/bin:$PATH"
+export NPM_TOKEN={{ onepasswordRead "op://lxjtvq4jgf77qkjac5wxrfbope/x23vzat5op74y3hovipr7s2uva/credential" }}
+
+# Include zy CLI to be available in shells
+[[ -s "$HOME/src/zy-cli/shell/zsh.sh" ]] && . "$HOME/src/zy-cli/shell/zsh.sh"
+eval "$(pyenv init -)"
+{{ end }}
