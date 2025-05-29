@@ -30,6 +30,7 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 {{ end -}}
 eval "$(zoxide init zsh)"
+eval "$(starship init zsh)"
 
 [[ -s "$HOME/.jabba/jabba.sh" ]] && . "$HOME/.jabba/jabba.sh"
 
