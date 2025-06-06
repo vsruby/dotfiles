@@ -1,4 +1,5 @@
 .editorconfig
+.gitignore
 .prettierignore
 CODEOWNERS
 README.md
