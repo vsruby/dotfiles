@@ -1,2 +1,4 @@
 .editorconfig
+.prettierignore
+CODEOWNERS
 README.md
