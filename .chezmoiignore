@@ -3,3 +3,4 @@
 .prettierignore
 CODEOWNERS
 README.md
+chezmoi.example.jsonc
