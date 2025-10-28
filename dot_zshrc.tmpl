@@ -1,3 +1,5 @@
+export VOLTA_FEATURE_PNPM=1
+
 autoload -Uz compinit && compinit
 
 # -- ANTIDOTE --
@@ -13,6 +15,7 @@ alias dco="docker compose"
 alias dcup="docker compose up"
 alias dcupd="docker compose up -d"
 alias dcdn="docker compose down"
+alias lad="lazydocker"
 alias lag="lazygit"
 alias reload="source ~/.zshrc"
 alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
