@@ -1,6 +1,8 @@
 .editorconfig
+.git/
 .gitignore
 .prettierignore
+CLAUDE.md
 CODEOWNERS
 README.md
 chezmoi.example.jsonc
