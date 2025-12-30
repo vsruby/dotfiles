@@ -1,14 +1,28 @@
 # Auto-load Project-Specific Instructions
 
-At the start of each session, check if a `.claude/PROJECT.md` file exists in the project root.
+**DEPRECATED** - This rule is no longer active. Do not use.
 
-If the file exists:
-- Read its contents immediately
-- Follow all instructions specified within it
-- Treat it as an extension of the project's CLAUDE.md file
+## Why Deprecated
 
-If the file does not exist:
-- Continue normally without error
-- Do not mention the missing file to the user
+This approach was too indirect and unreliable:
+- Claude doesn't automatically execute tool calls at session start
+- The instruction to "check if file exists" is passive text, not programmatic behavior
+- Claude would need to remember to Read the file, which didn't happen consistently
 
-This allows project-specific personal workflow instructions (like journaling preferences, logging requirements, or documentation habits) to be automatically loaded without being version-controlled.
+## Replacement Approach
+
+Personal workflow instructions (like journaling/notes habits) are now in user-level rules that apply everywhere:
+- `~/.claude/rules/proactive-documentation/RULE.md` - Proactive journal and notes usage
+
+Project-specific context (tags, component names) can be mentioned in:
+- Initial conversation messages when starting work
+- Project's version-controlled `CLAUDE.md` file (for team-wide instructions)
+- Deprecated `.claude/PROJECT.md` files (kept until user decides to delete)
+
+## Historical Purpose
+
+This rule attempted to allow project-specific personal workflow instructions (like journaling preferences, logging requirements, or documentation habits) to be automatically loaded without being version-controlled.
+
+---
+
+_Deprecated: 2025-12-30_
