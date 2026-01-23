@@ -215,7 +215,7 @@ When the user provides raw journal input, intelligently infer:
 
 | Field | How to Infer |
 | ----- | ------------ |
-| **Time** | Use current time if not specified |
+| **Time** | Use current time if not specified. **IMPORTANT:** Check actual system time using `date +"%H:%M"` via Bash tool - never estimate or guess the time |
 | **Mood** | Extract from tone, explicit mentions, or emotional context |
 | **Energy** | Infer from language ("exhausted" = Low, "crushing it" = High) |
 | **Context** | Identify project names, task types, or life areas mentioned |
