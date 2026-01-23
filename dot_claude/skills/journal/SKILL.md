@@ -23,11 +23,11 @@ Journal files are named with the date and an Ubuntu-style alliterative name:
 
 **Examples:**
 
-- `2025-12-05 - Focused Falcon.md`
-- `2025-12-05 - Debugging Dolphin.md`
-- `2025-12-05 - Tenacious Tiger.md`
+- `2025-12-05 - Nebulous Narwhal.md`
+- `2025-12-06 - Quixotic Quail.md`
+- `2025-12-07 - Urbane Uakari.md`
 
-The alliterative name should reflect the overall mood, energy, or emotional theme of the day. Pick an adjective that captures the essence of how the day felt and pair it with an animal starting with the same letter.
+The alliterative name uses **letter-balanced random selection** to ensure variety across the alphabet over time. The adjective and animal are chosen for diversity, not to reflect the day's mood or content.
 
 ## Journal Entry Format
 
@@ -154,7 +154,7 @@ When the user provides a journal entry and no journal exists for today:
 
 1. **Check for existing journal:** Use `Glob` to look for any file starting with `{today's date}` (e.g., `2025-12-29*.md`) in the journal folder. Only match on the date prefix - ignore everything after the date to allow flexibility in naming conventions.
 2. **Check previous journal for TODOs:** Find the most recent journal entry (could be yesterday or earlier if there are gaps) and read it to extract uncompleted TODOs
-3. **Generate alliterative name:** Based on the mood, energy, or emotional tone of the entry, pick an adjective and pair it with an animal starting with the same letter (e.g., "Frustrated Fox", "Energized Eagle", "Contemplative Cat")
+3. **Generate alliterative name:** Use letter-balanced selection (see "Alliterative Name Generation" section below) to pick a random adjective and animal pair that promotes alphabet diversity
 4. **Create the file** with this template:
 
 ```markdown
@@ -219,7 +219,7 @@ When the user provides raw journal input, intelligently infer:
 | **Mood** | Extract from tone, explicit mentions, or emotional context |
 | **Energy** | Infer from language ("exhausted" = Low, "crushing it" = High) |
 | **Context** | Identify project names, task types, or life areas mentioned |
-| **Alliterative Name** | Pick an adjective matching mood/energy/emotional tone + animal with same first letter |
+| **Alliterative Name** | Use letter-balanced selection to pick a random adjective + animal (see "Alliterative Name Generation" section) |
 
 Be generous in interpretation - the user may write casually. Look for:
 
@@ -227,21 +227,42 @@ Be generous in interpretation - the user may write casually. Look for:
 - Implicit tone: exclamation marks, defeated language, excitement
 - Energy indicators: "tired", "wired", "dragging", "on fire"
 
-### Alliterative Name Examples
+### Alliterative Name Generation
 
-Pick creative adjective-animal pairs that match the day's emotional vibe:
+Generate alliterative names using **letter-balanced random selection** for maximum variety and alphabet distribution.
 
-**Energized/Productive:** Determined Dragon, Focused Falcon, Productive Panda, Energized Eagle, Motivated Mongoose
+**Process:**
 
-**Frustrated/Challenging:** Frustrated Fox, Debugging Dolphin, Troublesome Tiger, Perplexed Penguin, Bewildered Bear
+1. **Analyze letter usage:** Use `Glob` to list all existing journal files in `~/dev/captains-log/journal/`
+2. **Count letter frequency:** Tally which letters have been used in the alliterative names (the adjective/animal letter)
+3. **Pick underused letter:** Select a letter that hasn't been used yet, or choose from the least-used letters
+4. **If perfectly balanced:** When all letters are roughly equal and there's no clear choice, ask the user which letter they'd like to use that day
+5. **Generate name:** Pick a truly random adjective (sometimes obscure) + diverse animal, both starting with the chosen letter
 
-**Calm/Reflective:** Contemplative Cat, Relaxed Rabbit, Serene Swan, Thoughtful Turtle, Mellow Moose
+**Goals:**
 
-**Tired/Drained:** Weary Wolf, Exhausted Elephant, Sleepy Sloth, Drained Duck, Tired Tortoise
+- **Balance across alphabet:** Over time, all 26 letters should have roughly equal representation
+- **Random adjectives:** Don't tie adjectives to mood or content - use truly random, varied, sometimes obscure adjectives
+- **Wide animal variety:** Use diverse animals beyond common choices (include marsupials, birds, fish, insects, mythical creatures, etc.)
+- **No mood correlation:** The name is purely for variety and alphabet balance, not emotional reflection
 
-**Happy/Relieved:** Joyful Jaguar, Happy Heron, Relieved Raccoon, Content Cougar, Cheerful Cheetah
+**Example Selection Process:**
 
-**Creative/Innovative:** Creative Crow, Inventive Iguana, Brilliant Butterfly, Ambitious Antelope, Visionary Vulture
+```
+Letters used least: Q (0 times), X (1 time), U (2 times)
+Choose: Q
+Adjective: Quixotic, Querulous, Quotidian, Quintessential
+Animal: Quail, Quokka, Quelea, Quetzal
+Result: "Quixotic Quail"
+```
+
+**Animal Variety Examples:**
+
+Use a wide range: Aardvark, Basilisk, Capybara, Dugong, Echidna, Frigatebird, Gecko, Heron, Ibex, Jackal, Kiwi, Lemur, Mantis, Narwhal, Okapi, Puffin, Quoll, Raven, Stoat, Tapir, Uakari, Vole, Wombat, Xenops, Yak, Zebu
+
+**Obscure Adjective Examples:**
+
+Abstemious, Beguiling, Capricious, Diaphanous, Ephemeral, Furtive, Garrulous, Halcyon, Ineffable, Jocund, Laconic, Mercurial, Nefarious, Obstinate, Pernicious, Quixotic, Redolent, Sanguine, Tenebrous, Ubiquitous, Verdant, Whimsical, Xenial, Zealous
 
 ## Querying Journal History
 
@@ -260,14 +281,16 @@ To help the user find patterns over time:
 
 **User says:** "Just spent 3 hours debugging a weird race condition in the webhook handler. Finally found it - was a closure issue. Feeling relieved but mentally drained."
 
+**Claude checks:** Letter usage shows Q and X are underused. Picks Q for variety.
+
 **Claude creates** (if first entry of the day):
 
-File: `journal/2025-12-05 - Relieved Raccoon.md`
+File: `journal/2025-12-05 - Querulous Quokka.md`
 
 ```markdown
 # Journal - December 5, 2025
 
-> Relieved Raccoon: Deep debugging session tracking down a race condition in webhook processing
+> Querulous Quokka: Deep debugging session tracking down a race condition in webhook processing
 
 ---
 
