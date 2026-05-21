@@ -7,6 +7,42 @@ description: Topical knowledge base with technical documentation and reference m
 
 Manages topical reference documentation and knowledge base content. Notes are time-invariant - organized by topic, not by date. They capture what you know, not when you learned it.
 
+## Voice and Perspective
+
+**CRITICAL: Always write notes from the user's perspective.** These are the user's notes — their personal knowledge base. You are transcribing/organizing their understanding, not describing them from the outside.
+
+**Default voice:** Prefer neutral, instructional/reference prose (imperative or impersonal) — this is how reference docs usually read, and it implicitly belongs to the user.
+
+**Correct (neutral reference voice):**
+- "Run `docker compose up` to start the stack."
+- "The `version` property is deprecated as of Compose V2."
+- "Watch out for the race condition when two tabs update the profile."
+
+**Correct (first-person when the user's experience or opinion is the content):**
+- "I prefer using `pnpm` over `npm` for this monorepo because…"
+- "I hit this issue while migrating waterworks — the fix was…"
+- "My mental model: think of webhooks as fire-and-forget."
+
+**Wrong (third-person, Claude as outside observer):**
+- "Vince prefers using pnpm over npm."
+- "The user hit this issue while migrating waterworks."
+- "He uses this command to start the stack."
+
+**Wrong (second-person addressing the user):**
+- "You prefer pnpm for this monorepo."
+- "You hit this issue while migrating waterworks."
+  - Note: "you" is fine in *generic instructional* prose ("you can run `X` to see Y") because it addresses the reader of the note, not the user specifically. But never use "you" to refer to the user as the subject of an experience.
+
+**Wrong (Claude as participant or co-author):**
+- "We figured out that the issue was…"
+- "I helped Vince solve this by…" (Claude should not appear as a character in the notes)
+
+**How to apply this:**
+- When the user provides raw input ("I figured out that…"), preserve their first-person voice if you keep the experiential framing — or convert to neutral reference voice if the content is purely technical.
+- When the content is a solution, pattern, or reference (most notes), default to neutral instructional voice.
+- When the content is the user's opinion, preference, or personal experience, use first-person ("I", "my").
+- Never narrate the user in third-person, and never insert yourself (Claude) as a participant.
+
 ## Notes Location
 
 ```

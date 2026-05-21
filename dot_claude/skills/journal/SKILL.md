@@ -1,11 +1,40 @@
 ---
 name: journal
-description: Daily journaling for mood, energy, and experiential tracking
+description: Daily journaling for experiential tracking
 ---
 
 # Daily Journal
 
-Captures temporal and experiential content - how you felt, what you experienced, the journey of your work. Each day has one file with time-stamped entries tracking mood, energy, and emotional context.
+Captures temporal and experiential content - how you felt, what you experienced, the journey of your work. Each day has one file with time-stamped entries capturing emotional context.
+
+## Voice and Perspective
+
+**CRITICAL: Always write journal entries in first-person from the user's perspective.** This is the user's journal — they are the narrator. You are transcribing/translating their voice, not describing them from the outside.
+
+**Correct (first-person, user as narrator):**
+- "I spent 3 hours debugging a race condition."
+- "Feeling relieved but mentally drained."
+- "Feeling drained after that long meeting."
+- "I decided to refactor the auth layer instead of patching it."
+
+**Wrong (third-person, Claude as outside observer):**
+- "Vince spent 3 hours debugging a race condition."
+- "The user is feeling relieved but mentally drained."
+- "He decided to refactor the auth layer."
+
+**Wrong (second-person, Claude addressing the user):**
+- "You spent 3 hours debugging a race condition."
+- "You're feeling relieved but mentally drained."
+
+**Wrong (Claude as participant or co-author):**
+- "We debugged the race condition together."
+- "I helped Vince figure out the closure issue." (Claude should not appear as a character in the journal)
+
+**How to apply this:**
+- When the user provides raw input ("Just spent 3 hours debugging..."), preserve their first-person voice in the entry.
+- When you have to rephrase or summarize, write it as if the user is writing it themselves.
+- The blockquote summary under the title is also first-person framing of the day from the user's perspective.
+- If the user dictates content in third-person about themselves (rare), still convert to first-person unless they explicitly ask otherwise.
 
 ## Journal Location
 
@@ -27,7 +56,7 @@ Journal files are named with the date and an Ubuntu-style alliterative name:
 - `2025-12-06 - Quixotic Quail.md`
 - `2025-12-07 - Urbane Uakari.md`
 
-The alliterative name uses **letter-balanced random selection** to ensure variety across the alphabet over time. The adjective and animal are chosen for diversity, not to reflect the day's mood or content.
+The alliterative name uses **letter-balanced random selection** to ensure variety across the alphabet over time. The adjective and animal are chosen for diversity, not to reflect the day's content.
 
 ## Journal Entry Format
 
@@ -36,21 +65,17 @@ Each entry within a journal file follows this structure:
 ```markdown
 ## {HH:MM} - {Brief Context}
 
-**Mood:** {emoji + word}
-**Energy:** {Low | Medium | High}
 **Context:** {Project or area of focus}
 
 {Free-form content about what you're working on, challenges faced, thoughts, decisions made, feelings, etc.}
 ```
 
 **What to capture:**
-- Emotional state and how you're feeling
+- Emotional state and how you're feeling (in the prose, not as a structured field)
 - Challenges, frustrations, or breakthroughs
 - The experience of doing the work
 - Decision-making process and why
 - Brief progress updates with emotional context
-
-**Mood examples:** `😊 Focused`, `😤 Frustrated`, `🤔 Contemplative`, `⚡ Energized`, `😴 Tired`, `😌 Relieved`, `🎯 Determined`
 
 ## Linking to Notes
 
@@ -173,8 +198,6 @@ When the user provides a journal entry and no journal exists for today:
 
 ## {HH:MM} - {Brief Context}
 
-**Mood:** {inferred from content}
-**Energy:** {inferred from content}
 **Context:** {project/area}
 
 {User's journal content}
@@ -202,8 +225,6 @@ When a journal already exists for today:
 ```markdown
 ## {HH:MM} - {Brief Context}
 
-**Mood:** {inferred}
-**Energy:** {inferred}
 **Context:** {project/area}
 
 {User's new journal content}
@@ -216,8 +237,6 @@ When the user provides raw journal input, intelligently infer:
 | Field | How to Infer |
 | ----- | ------------ |
 | **Time** | Use current time if not specified. **IMPORTANT:** Check actual system time using `date +"%H:%M"` via Bash tool - never estimate or guess the time |
-| **Mood** | Extract from tone, explicit mentions, or emotional context |
-| **Energy** | Infer from language ("exhausted" = Low, "crushing it" = High) |
 | **Context** | Identify project names, task types, or life areas mentioned |
 | **Alliterative Name** | Use letter-balanced selection to pick a random adjective + animal (see "Alliterative Name Generation" section) |
 
@@ -225,7 +244,6 @@ Be generous in interpretation - the user may write casually. Look for:
 
 - Explicit feelings: "feeling frustrated", "pretty happy", "drained"
 - Implicit tone: exclamation marks, defeated language, excitement
-- Energy indicators: "tired", "wired", "dragging", "on fire"
 
 ### Alliterative Name Generation
 
@@ -242,9 +260,9 @@ Generate alliterative names using **letter-balanced random selection** for maxim
 **Goals:**
 
 - **Balance across alphabet:** Over time, all 26 letters should have roughly equal representation
-- **Random adjectives:** Don't tie adjectives to mood or content - use truly random, varied, sometimes obscure adjectives
+- **Random adjectives:** Don't tie adjectives to content - use truly random, varied, sometimes obscure adjectives
 - **Wide animal variety:** Use diverse animals beyond common choices (include marsupials, birds, fish, insects, mythical creatures, etc.)
-- **No mood correlation:** The name is purely for variety and alphabet balance, not emotional reflection
+- **No content correlation:** The name is purely for variety and alphabet balance, not a reflection of the day's content
 
 **Example Selection Process:**
 
@@ -270,12 +288,10 @@ To help the user find patterns over time:
 
 | Query Type | Approach |
 | ---------- | -------- |
-| Find by mood | `Grep` for mood patterns like `😤` or `Frustrated` |
 | Find by project | `Grep` for `**Context:**` lines containing the project |
 | Find by topic | `Grep` for keywords or phrases |
 | List recent entries | `Glob` for `journal/*.md` sorted by date |
 | Weekly summary | Read last 7 days of journals and synthesize |
-| Energy patterns | `Grep` for `**Energy:**` and analyze distribution |
 
 ## Example Workflow
 
@@ -303,8 +319,6 @@ File: `journal/2025-12-05 - Querulous Quokka.md`
 
 ## 14:32 - Debugging Victory
 
-**Mood:** 😌 Relieved
-**Energy:** Low
 **Context:** Webhook Handler / Zylo
 
 Just spent 3 hours debugging a weird race condition in the webhook handler. Finally found it - was a closure issue. Feeling relieved but mentally drained.
@@ -319,10 +333,9 @@ Note: The first TODO was rolled forward from 2025-12-04 (previous day), the seco
 ## When to Use This Skill
 
 **Use journal skill when:**
-- User expresses feelings, mood, or emotional state
+- User expresses feelings or emotional state
 - Capturing the experience or journey of work
 - Brief updates with emotional context
-- Tracking energy levels throughout the day
 - Reflecting on challenges or breakthroughs
 
 **Don't use journal skill when:**
