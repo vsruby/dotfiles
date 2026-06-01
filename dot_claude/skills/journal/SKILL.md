@@ -116,11 +116,13 @@ Each daily journal includes a TODOs section for tracking tasks. TODOs are automa
 
 When creating a new journal entry for today:
 
-1. **Find most recent previous journal** - Could be yesterday or earlier if there are gaps in days
-2. **Extract uncompleted TODOs** - Only copy TODOs that are unchecked `- [ ]`
-3. **Preserve dates** - Keep the original date in parentheses when rolling forward
-4. **Add new TODOs without dates** - TODOs added today don't need dates initially
-5. **Completed TODOs stay in their day** - Checked TODOs `- [x]` remain in the journal where they were completed
+1. **Find most recent previous journal** - Could be yesterday or earlier if there are gaps in days. Call this N-1.
+2. **Also read the journal before that** - Call this N-2. Used for the drop-detection check below.
+3. **Extract uncompleted TODOs from N-1** - Only copy TODOs that are unchecked `- [ ]`
+4. **Detect silent drops** - Compare N-2's unchecked TODOs against N-1's list. If any unchecked TODO appears in N-2 but is missing from N-1 (i.e. it was dropped without being checked off), surface it to the user before completing the roll forward. Ask whether to include it in today's list or leave it dropped. Reason: a single day where the roll-forward is trimmed (e.g. a personal/context-switch day where the prose doesn't mention the work TODOs) otherwise drops those items silently for every downstream day, with no audit trail.
+5. **Preserve dates** - Keep the original date in parentheses when rolling forward
+6. **Add new TODOs without dates** - TODOs added today don't need dates initially
+7. **Completed TODOs stay in their day** - Checked TODOs `- [x]` remain in the journal where they were completed
 
 ### Dating TODOs
 
@@ -137,6 +139,27 @@ When creating a new journal entry for today:
 **When checking off TODO:** No change, just check it:
 ```markdown
 - [x] Research marathon plans
+```
+
+### TODO Ordering
+
+Within the TODOs section, order items by **date added, oldest on top**:
+
+1. **Dated TODOs first**, sorted ascending by the date in parentheses (oldest at the top, newest dated item just above the undated ones).
+2. **Undated TODOs (added today) at the bottom**, in the order they were added during the day.
+
+When checking off a TODO, leave it in place rather than reshuffling. When a new TODO is added during the day, append it to the bottom of the undated block.
+
+**Example:**
+```markdown
+## TODOs
+
+- [ ] Decide on price dedup strategy (2026-03-03)
+- [ ] Configure Clerk session token (2026-03-19)
+- [ ] Add UUID-format check at top of handleApiKey (2026-04-29)
+- [ ] PURPLE-332 follow-up: fix refresh audit-field call (2026-05-29)
+- [ ] Address Bryson's three remaining PR #10699 comments in PR #10693
+- [ ] Pick up groceries
 ```
 
 ### Stale TODO Warnings
