@@ -9,7 +9,7 @@ Captures temporal and experiential content - how you felt, what you experienced,
 
 ## Voice and Perspective
 
-**CRITICAL: Always write journal entries in first-person from the user's perspective.** This is the user's journal — they are the narrator. You are transcribing/translating their voice, not describing them from the outside.
+**CRITICAL: Always write journal entries in first-person from the user's perspective.** This is the user's journal — they are the narrator and the decision-maker. You are transcribing/translating their voice, not describing them from the outside. The one exception: when **Claude** itself performed an action (suggested something, wrote code, started down a path), refer to Claude in the **third person** — never merge Claude's actions into the user's "I" (see below).
 
 **Correct (first-person, user as narrator):**
 - "I spent 3 hours debugging a race condition."
@@ -26,13 +26,23 @@ Captures temporal and experiential content - how you felt, what you experienced,
 - "You spent 3 hours debugging a race condition."
 - "You're feeling relieved but mentally drained."
 
-**Wrong (Claude as participant or co-author):**
-- "We debugged the race condition together."
-- "I helped Vince figure out the closure issue." (Claude should not appear as a character in the journal)
+**Claude as a distinct actor (third person):** When Claude did something — suggested an approach, drafted code, found a bug, started down a path — attribute it to **"Claude"** in the third person. The user stays the narrator and the decision-maker; Claude is a separate character. Never fold Claude's actions into the user's "I."
+
+**Correct (Claude acts, user decides):**
+- "Claude suggested extracting a helper, but I decided to inline it instead."
+- "Claude started refactoring the auth layer, then I stopped it and went with a smaller patch."
+- "Claude drafted the migration; I reviewed it and tweaked the down-step."
+
+**Wrong (Claude's actions collapsed into the user's "I"):**
+- "I started refactoring the auth layer but then I overrode myself and patched it instead." — this was Claude acting and the user redirecting; keep them distinct: "Claude started refactoring the auth layer, then I stopped it and patched instead."
+- "I figured out the closure issue." — when Claude found it: "Claude tracked it down to a closure issue; I confirmed the fix."
+
+**"We" is acceptable, sparingly:** For genuinely shared back-and-forth, "we" is fine ("we kicked around a few approaches"). But the user owns the decisions by default — keep choice-language in first person ("I decided," "I went with"), not "we."
 
 **How to apply this:**
 - When the user provides raw input ("Just spent 3 hours debugging..."), preserve their first-person voice in the entry.
-- When you have to rephrase or summarize, write it as if the user is writing it themselves.
+- When you have to rephrase or summarize, write it as if the user is writing it themselves — but attribute anything Claude actually did to "Claude" in the third person.
+- When the user redirected or stopped Claude, keep Claude as the actor of the original path and the user as the one who steered ("Claude started X, I pulled it back to Y").
 - The blockquote summary under the title is also first-person framing of the day from the user's perspective.
 - If the user dictates content in third-person about themselves (rare), still convert to first-person unless they explicitly ask otherwise.
 

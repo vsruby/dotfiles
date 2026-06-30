@@ -33,15 +33,13 @@ Manages topical reference documentation and knowledge base content. Notes are ti
 - "You hit this issue while migrating waterworks."
   - Note: "you" is fine in *generic instructional* prose ("you can run `X` to see Y") because it addresses the reader of the note, not the user specifically. But never use "you" to refer to the user as the subject of an experience.
 
-**Wrong (Claude as participant or co-author):**
-- "We figured out that the issue was…"
-- "I helped Vince solve this by…" (Claude should not appear as a character in the notes)
+**Mostly leave Claude out — third person when needed:** Reference docs are about the knowledge, not who produced it, so usually Claude shouldn't appear at all. In the rare case a note must credit Claude with an action, use the **third person** ("Claude generated the first draft of this migration"). Never write Claude's actions as the user's "I" (not "I helped Vince solve this…"), and don't insert Claude where the reference content doesn't call for it.
 
 **How to apply this:**
 - When the user provides raw input ("I figured out that…"), preserve their first-person voice if you keep the experiential framing — or convert to neutral reference voice if the content is purely technical.
 - When the content is a solution, pattern, or reference (most notes), default to neutral instructional voice.
 - When the content is the user's opinion, preference, or personal experience, use first-person ("I", "my").
-- Never narrate the user in third-person, and never insert yourself (Claude) as a participant.
+- Never narrate the user in third-person. If a note genuinely needs to mention something Claude did, refer to Claude in the third person — but don't insert Claude as a participant where the reference content doesn't call for it.
 
 ## Notes Location
 
