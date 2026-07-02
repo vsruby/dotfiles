@@ -210,7 +210,9 @@ TODOs section goes:
 
 When the user provides a journal entry and no journal exists for today:
 
-1. **Check for existing journal:** Use `Glob` to look for any file starting with `{today's date}` (e.g., `2025-12-29*.md`) in the journal folder. Only match on the date prefix - ignore everything after the date to allow flexibility in naming conventions.
+**FIRST — get today's actual date** by running `date +"%Y-%m-%d"` via the Bash tool. NEVER infer today's date from earlier context, the injected `currentDate`, or the most-recent journal filename — a long session can cross midnight and those go stale, which misfiles the entry into the wrong day.
+
+1. **Check for existing journal:** Use `Glob` to look for any file starting with that date (e.g., `2025-12-29*.md`) in the journal folder. Only match on the date prefix - ignore everything after the date to allow flexibility in naming conventions.
 2. **Check previous journal for TODOs:** Find the most recent journal entry (could be yesterday or earlier if there are gaps) and read it to extract uncompleted TODOs
 3. **Generate alliterative name:** Use letter-balanced selection (see "Alliterative Name Generation" section below) to pick a random adjective and animal pair that promotes alphabet diversity
 4. **Create the file** with this template:
@@ -246,6 +248,8 @@ _Tags:_ #daily #journal
 
 When a journal already exists for today:
 
+**FIRST — confirm today's actual date** by running `date +"%Y-%m-%d"` (don't trust conversation context, the injected `currentDate`, or the last-touched journal filename; a long session can cross midnight). Append to the file for *that* date — if none exists yet, create it (see above) instead of appending to an earlier day's file.
+
 1. **Read the existing file** to understand context and flow
 2. **Add a new time-stamped entry** before the closing `---` and tags section
 3. **Consider updating the summary** in the blockquote if the day's emotional theme has evolved significantly
@@ -269,6 +273,7 @@ When the user provides raw journal input, intelligently infer:
 
 | Field | How to Infer |
 | ----- | ------------ |
+| **Date** | **IMPORTANT:** Get today's date by running `date +"%Y-%m-%d"` via the Bash tool. NEVER infer it from an existing filename, earlier conversation context, or the injected `currentDate` — those go stale across a day rollover (a long session can cross midnight). The date decides which file the entry belongs in, so guessing it wrong misfiles the entry into the wrong day. |
 | **Time** | Use current time if not specified. **IMPORTANT:** Check actual system time using `date +"%H:%M"` via Bash tool - never estimate or guess the time |
 | **Context** | Identify project names, task types, or life areas mentioned |
 | **Alliterative Name** | Use letter-balanced selection to pick a random adjective + animal (see "Alliterative Name Generation" section) |
