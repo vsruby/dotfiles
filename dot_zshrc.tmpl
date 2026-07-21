@@ -14,7 +14,9 @@ antidote load
 
 # -- ALIASES --
 alias au="antidote update"
-alias cd="z"
+if [[ "$CLAUDECODE" != "1" ]]; then
+  alias cd="z"
+fi
 alias cl="claude"
 alias clc="claude --continue"
 alias cm="chezmoi"
