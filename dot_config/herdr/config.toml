@@ -1,0 +1,11 @@
+onboarding = false
+
+[keys]
+prefix = "ctrl+a"
+
+[theme]
+dark_name = "catppuccin"
+name = "catppuccin"
+
+[worktrees]
+directory = "~/src/herdr/worktrees"
