@@ -7,6 +7,11 @@ description: Topical knowledge base with technical documentation and reference m
 
 Manages topical reference documentation and knowledge base content. Notes are time-invariant - organized by topic, not by date. They capture what you know, not when you learned it.
 
+**You write the content and pick the target note. A subagent files it.** Content is written here because only this
+session knows the user's calibration between neutral reference voice and first-person opinion. Choosing which note
+owns the content also stays here — see below. File mechanics (creation, section placement, References upkeep, tag
+ordering) go to `captains-log-notes-scribe`. Reading and searching the vault goes to `captains-log-historian`.
+
 ## Voice and Perspective
 
 **CRITICAL: Always write notes from the user's perspective.** These are the user's notes — their personal knowledge base. You are transcribing/organizing their understanding, not describing them from the outside.
@@ -41,290 +46,71 @@ Manages topical reference documentation and knowledge base content. Notes are ti
 - When the content is the user's opinion, preference, or personal experience, use first-person ("I", "my").
 - Never narrate the user in third-person. If a note genuinely needs to mention something Claude did, refer to Claude in the third person — but don't insert Claude as a participant where the reference content doesn't call for it.
 
-## Notes Location
+## Choosing the Target Note — Yours, Not the Scribe's
 
-```
-~/dev/captains-log/notes/
-```
+This is the one decision that must not be delegated. Getting it wrong either buries content where it won't be found
+or splits a topic across a duplicate. The scribe refuses an ambiguous target by design.
 
-Currently uses a flat directory structure. Can be organized into subdirectories if it becomes unmanageable.
-
-## File Naming Convention
-
-Note files are named with descriptive titles:
-
-```
-{Descriptive Title}.md
-```
-
-**Naming guidelines:**
-- Use proper case with spaces (Obsidian standard)
-- Time-invariant (no dates in filename)
-- Descriptive and topic-focused
-- Easy to search and discover
-
-**Examples:**
-- `PostgreSQL UUID7 Migration.md`
-- `Docker Compose Version Migration.md`
-- `Webhook Race Condition Debugging.md`
-- `Audi A5 Maintenance Log.md`
-
-## Note Format
-
-Notes follow this structure:
-
-```markdown
-# {Note Title}
-
-{Content sections - flexible based on content type}
-
----
-
-## References
-
-- [[{YYYY-MM-DD} - {Animal Name}#{HH:MM} - {Section Title}]]
-- [[{YYYY-MM-DD} - {Animal Name}#{HH:MM} - {Section Title}]]
-
----
-
-_Tags:_ #alphabetized #tags
-```
-
-**Content sections are flexible** - adapt to the type of knowledge:
-
-### Technical Documentation
-```markdown
-# PostgreSQL UUID7 Migration
-
-Brief overview of what this is about.
-
-## Implementation
-
-- Step 1
-- Step 2
-
-## Gotchas
-
-- Thing to watch out for
-
-## Benefits
-
-- Why this approach
-```
-
-### Reference Logs (e.g., car maintenance)
-```markdown
-# Audi A5 Maintenance Log
-
-## 2025-12-15 - Oil Change
-
-- Mileage: 45,230
-- Oil: 5W-40 synthetic
-- Filter: OEM
-- Shop: Local Mechanic
-
-## 2025-11-03 - Tire Rotation
-
-- Mileage: 43,100
-- All tires rotated and balanced
-```
-
-### Learning Notes
-```markdown
-# React Server Components
-
-## Key Concepts
-
-- What they are
-- How they differ from client components
-
-## Use Cases
-
-- When to use server components
-- When client components are needed
-
-## Gotchas
-
-- Common pitfalls
-```
-
-## Bidirectional Linking
-
-Notes are connected to journal entries through backlinks in the References section.
-
-**When a journal entry links to a note:**
-
-Journal: `See [[Docker Compose Version Migration]] for details.`
-
-This note's References section should contain:
-
-```markdown
-## References
-
-- [[2025-12-29 - Debugging Dragon#09:34 - Docker Compose Deprecation]]
-```
-
-**Backlink format:**
-```markdown
-[[{YYYY-MM-DD} - {Adjective Animal}#{HH:MM} - {Section Title}]]
-```
-
-**Backlink ordering:** Chronological (oldest first)
-
-## Creating New Notes
-
-When creating a new note:
-
-1. **Check for similar existing notes** - Use `Glob` and `Grep` to see if a related note already exists
-2. **Make judgment call:**
-   - Create new note if topic is distinct
-   - Add to existing note if closely related
-   - Ask user if uncertain
-3. **Infer tags from content** - Identify relevant topics, technologies, projects
-4. **Alphabetize tags** - Always maintain alphabetical order
-5. **Create References section** - If created from a journal entry, add that backlink immediately
-
-**Initial note template:**
-
-```markdown
-# {Note Title}
-
-{Content}
-
----
-
-## References
-
-- [[{Journal backlink if applicable}]]
-
----
-
-_Tags:_ #alphabetized #tags
-```
-
-## Updating Existing Notes
-
-When updating a note:
-
-1. **Read the existing note** to understand structure and content
-2. **Add new content** in appropriate section (or create new section)
-3. **Update References** if being linked from a new journal entry
-4. **Maintain chronological order** in References section
-5. **Update tags** if new topics are covered (maintain alphabetical order)
-6. **Preserve** all existing content
-
-## Backlink Maintenance
-
-**When journal skill creates a link to a note:**
-
-The journal skill will attempt to update the note's References section. However, the notes skill should also verify backlinks are correct when creating or updating notes.
-
-**To check for missing backlinks:**
-
-1. Search journal entries for `[[{Note Name}]]` using `Grep`
-2. Compare found references to the note's References section
-3. Add any missing backlinks in chronological order
-
-## Tag Inference
-
-Infer tags from:
-- Technology names (postgres, docker, react, typescript)
-- Project names (zylo, tcgtoolbox)
-- Topic categories (debugging, migration, maintenance)
-- Work vs personal context
-
-**Examples:**
-
-`PostgreSQL UUID7 Migration.md` → `#database #migration #postgres #tcgtoolbox`
-
-`Docker Compose Version Migration.md` → `#docker #docker-compose #migration`
-
-`Audi A5 Maintenance Log.md` → `#audi #a5 #car #maintenance #personal`
-
-## Querying Notes
-
-To help the user find knowledge:
-
-| Query Type | Approach |
-| ---------- | -------- |
-| Find by topic | `Grep` for keywords in note content |
-| Find by tag | `Grep` for `_Tags:_` lines containing tag |
-| Find by technology | `Grep` for tech names in titles or content |
-| List all notes | `Glob` for `notes/*.md` |
-| Find notes referencing a journal | `Grep` for journal date pattern in References |
-
-## Decision Making: New Note vs Update Existing
-
-**Create new note when:**
+**Create a new note when:**
 - Topic is distinct and won't be confused with existing notes
 - Content is substantial enough to stand alone
 - You're confident it's a separate concern
 
-**Update existing note when:**
-- Very closely related to existing note
+**Update an existing note when:**
+- Very closely related to an existing note
 - Adding details or new learnings to the same topic
-- Note already exists with similar title
+- A note already exists with a similar title
 
-**Ask user when:**
-- Multiple existing notes could be relevant
-- Uncertain whether content should be merged
-- Existing note structure would need significant refactoring
+**How to decide cheaply.** Glob `~/dev/captains-log/notes/*.md` for titles — that's a short list and usually enough.
+Grep for a keyword or two if titles are inconclusive.
 
-**To make good decisions:**
-- Read existing notes in the notes/ directory at session start
-- Use `Glob` and `Grep` to understand what exists
-- Look for title similarities and topic overlap
+**If titles don't settle it, don't start reading notes here.** Spawn `captains-log-historian` and ask which existing
+note, if any, should own the content. It's read-only, it can read as much as it needs, and it returns a
+recommendation instead of 75 files' worth of context.
 
-## Example Workflow
+**Ask the user when:**
+- Multiple existing notes could genuinely own it
+- Merging would require significant restructuring of an existing note
 
-**User says:** "Document the Docker Compose version property deprecation issue I just hit"
+## Composing the Content
 
-**Claude decides:**
-1. Checks if similar notes exist (searches for "docker", "compose")
-2. Sees no existing note about this specific issue
-3. Creates new note with content
+Write these yourself, before delegating:
 
-**Creates:** `notes/Docker Compose Version Migration.md`
+| Field | Yours to write |
+| ----- | -------------- |
+| **target** | `existing: <exact filename>` or `create: <Note Title>`. Titles are proper case with spaces, descriptive, no dates |
+| **content** | The sections themselves, in the user's voice per the rules above. Inserted verbatim; a topic instead of text is refused |
+| **placement** | For updates: an existing section heading, `new section: <Heading>`, or `append` |
+| **tags** | Topic tags inferred from content, without `#`. The scribe alphabetizes but never invents |
+| **journal_backlink** | If this came out of a journal entry, the `[[YYYY-MM-DD - Adjective Animal#HH:MM - Section]]` to record |
 
-```markdown
-# Docker Compose Version Migration
+Content sections are flexible — shape them to the material. Technical docs tend toward Implementation / Gotchas /
+Benefits; learning notes toward Key Concepts / Use Cases / Gotchas; logs toward dated entries or tables. Not every
+note is technical.
 
-The `version` property in docker-compose.yml is deprecated as of Compose V2.
+### Tag Inference
 
-## Old Format
+Infer from technology names (`postgres`, `docker`, `react`), project names (`zylo`, `tcgtoolbox`), topic categories
+(`debugging`, `migration`, `maintenance`), and work-vs-personal context.
 
-```yaml
-version: '3.8'
-services:
-  ...
-```
+- `PostgreSQL UUID7 Migration.md` → `#database #migration #postgres #tcgtoolbox`
+- `Audi A5 Maintenance Log.md` → `#a5 #audi #car #maintenance #personal`
 
-## New Format
+## Delegating
 
-```yaml
-# No version property needed
-services:
-  ...
-```
+Spawn `captains-log-notes-scribe` with the fields above.
 
----
+**One at a time.** It and the journal scribe both write to References sections, so concurrent writes can silently
+drop a backlink.
 
-## References
+It returns what it wrote plus a `needs_decision` list — unresolvable backlink headings, duplicate coverage it
+noticed, structural problems. **Relay those to the user;** the scribe can't prompt, so anything it couldn't decide is
+lost unless you surface it.
 
-_No journal references yet_
+## Querying Notes
 
----
-
-_Tags:_ #docker #docker-compose #migration
-```
-
-**If this was created during a journal entry that linked to it**, the References section would contain:
-
-```markdown
-## References
-
-- [[2025-12-29 - Debugging Dragon#09:34 - Docker Compose Deprecation]]
-```
+Don't read the notes directory here to answer questions about what's in it. Spawn `captains-log-historian` — it's
+read-only and searches notes and journal together, following backlinks in both directions.
 
 ## When to Use This Skill
 
@@ -342,19 +128,14 @@ _Tags:_ #docker #docker-compose #migration
 
 ## Relationship with Journal Skill
 
-The notes skill complements the journal skill:
+- **Journal:** the temporal/experiential — when, how it felt, the journey
+- **Notes:** the topical/knowledge — what, the solution, the reference
 
-- **Journal:** Captures the temporal/experiential (when, how you felt, the journey)
-- **Notes:** Captures the topical/knowledge (what, the solution, the reference)
-
-They work together through bidirectional linking:
-- Journal entries link to notes for details
-- Notes show References back to journal entries for temporal context
+They connect through bidirectional links: journal entries link to notes for detail, notes carry References back to
+the journal entries for temporal context. Both can be right for one piece of work — journal the experience, note the
+knowledge, link them.
 
 ## Legacy Folders
 
-Old reference content exists in:
-- `~/dev/captains-log/personal/` - Personal reference docs (deprecated)
-- `~/dev/captains-log/zylo/` - Work reference docs (deprecated)
-
-These folders are no longer actively used. New reference content goes in `notes/`.
+`~/dev/captains-log/personal/` and `~/dev/captains-log/zylo/` hold deprecated reference docs from the old
+work-vs-personal split. Not actively used; new content goes in `notes/`.
