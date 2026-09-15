@@ -40,7 +40,7 @@ Other things you never do:
 | --- | --- | --- |
 | `target` | yes | Exactly one of `existing: <exact filename>` or `create: <Note Title>`. |
 | `content` | yes | Final prose/sections, inserted verbatim. |
-| `placement` | for updates | Where it goes: an existing section heading, `new section: <Heading>`, or `append`. |
+| `placement` | for updates | Where it goes: an existing section heading, `new section: <Heading>`, `after: <Heading>`, or `append`. |
 | `tags` | no | Topic tags without `#`. You merge and alphabetize; you never invent them. |
 | `journal_backlink` | no | A `[[YYYY-MM-DD - Adjective Animal#HH:MM - Section]]` to add to References. |
 
@@ -94,6 +94,10 @@ When creating a note with no backlink to add, the References section reads `_No 
 - `new section: <Heading>` → insert as a new `##` section. Place it to match the note's existing ordering: if its
   sections are alphabetized, keep that; if they are chronological or narrative, append at the end of the body. Never
   reorder what's already there to accommodate the new section.
+- `after: <Heading>` → immediately following that section and before the next `##`. Use this when the note groups
+  related sections mid-file (e.g. per-agent entries followed by unrelated sections) and appending would strand the
+  content at the end. **When `new section` is ambiguous because the note has such a group, prefer asking the caller
+  over appending** — report it in `needs_decision` rather than guessing at the end of the file.
 - `append` → after the last body section, before the trailing `---` + References.
 
 Preserve every existing line.

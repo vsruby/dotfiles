@@ -80,7 +80,7 @@ Write these yourself, before delegating:
 | ----- | -------------- |
 | **target** | `existing: <exact filename>` or `create: <Note Title>`. Titles are proper case with spaces, descriptive, no dates |
 | **content** | The sections themselves, in the user's voice per the rules above. Inserted verbatim; a topic instead of text is refused |
-| **placement** | For updates: an existing section heading, `new section: <Heading>`, or `append` |
+| **placement** | For updates: an existing section heading, `new section: <Heading>`, `after: <Heading>` to land inside a mid-file group, or `append` |
 | **tags** | Topic tags inferred from content, without `#`. The scribe alphabetizes but never invents |
 | **journal_backlink** | If this came out of a journal entry, the `[[YYYY-MM-DD - Adjective Animal#HH:MM - Section]]` to record |
 
