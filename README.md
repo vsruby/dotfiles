@@ -12,7 +12,7 @@ Personal dotfiles managed with [Chezmoi](https://www.chezmoi.io/).
 - [Chezmoi](https://www.chezmoi.io/)
 - [1Password CLI](https://developer.1password.com/docs/cli/) (required for work machine configurations that use secrets)
 
-**Note:** Development tools (Volta, pyenv, jabba, lazygit, etc.) should be installed separately. Chezmoi only manages configuration files, following [best practices](https://www.chezmoi.io/user-guide/frequently-asked-questions/usage/) to avoid system management issues.
+**Note:** Development tools (Volta, mise, pyenv, jabba, lazygit, etc.) should be installed separately. Chezmoi only manages configuration files, following [best practices](https://www.chezmoi.io/user-guide/frequently-asked-questions/usage/) to avoid system management issues.
 
 ## Installation
 

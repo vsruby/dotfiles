@@ -48,6 +48,8 @@ eval "$(starship init zsh)"
 
 [[ -s "$HOME/.jabba/jabba.sh" ]] && . "$HOME/.jabba/jabba.sh"
 
+[[ -x "$HOME/.local/bin/mise" ]] && eval "$("$HOME/.local/bin/mise" activate zsh)"
+
 {{ if eq .chezmoi.hostname "zylo-vince-ruby" -}}
 export PATH="$HOME/Library/Python/3.11/bin:$PATH"
 export NPM_TOKEN={{ onepasswordRead "op://lxjtvq4jgf77qkjac5wxrfbope/x23vzat5op74y3hovipr7s2uva/credential" }}
