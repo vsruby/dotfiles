@@ -1,2 +1,5 @@
 [settings]
 color_theme = "catppuccin"
+
+[tools]
+php = "8.5"
