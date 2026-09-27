@@ -7,5 +7,40 @@ prefix = "ctrl+a"
 dark_name = "catppuccin"
 name = "catppuccin"
 
+[ui]
+prompt_new_workspace_name = true
+
 [worktrees]
 directory = "~/src/herdr/worktrees"
+
+[[keys.command]]
+command = "lazydocker"
+description = "lazydocker popup"
+height = "90%"
+key = "prefix+ctrl+d"
+type = "popup"
+width = "90%"
+
+[[keys.command]]
+command = "lazygit"
+description = "lazygit popup"
+height = "90%"
+key = "prefix+alt+g"
+type = "popup"
+width = "90%"
+
+[[keys.command]]
+command = "cd ~ && exec \"${SHELL:-sh}\""
+description = "scratch shell popup (home)"
+height = "90%"
+key = "prefix+alt+t"
+type = "popup"
+width = "90%"
+
+[[keys.command]]
+command = "exec \"${SHELL:-sh}\""
+description = "scratch shell popup (pane cwd)"
+height = "90%"
+key = "prefix+t"
+type = "popup"
+width = "90%"
