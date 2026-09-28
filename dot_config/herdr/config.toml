@@ -2,6 +2,7 @@ onboarding = false
 
 [keys]
 prefix = "ctrl+a"
+switch_workspace = "prefix+shift+1..9"
 
 [theme]
 dark_name = "catppuccin"
