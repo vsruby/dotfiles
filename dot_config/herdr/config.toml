@@ -11,6 +11,12 @@ name = "catppuccin"
 [ui]
 prompt_new_workspace_name = true
 
+[ui.sound]
+enabled = false
+
+[ui.toast]
+delivery = "herdr"
+
 [worktrees]
 directory = "~/src/herdr/worktrees"
 
