@@ -6,7 +6,9 @@ ohmyzsh/ohmyzsh path:plugins/node
 ohmyzsh/ohmyzsh path:plugins/npm
 ohmyzsh/ohmyzsh path:plugins/sublime
 ohmyzsh/ohmyzsh path:plugins/terraform
+{{ if eq .chezmoi.hostname "zylo-vince-ruby-2" -}}
 ohmyzsh/ohmyzsh path:plugins/volta
+{{ end -}}
 ohmyzsh/ohmyzsh path:plugins/vscode
 
 mattmc3/ez-compinit

@@ -1,5 +1,7 @@
 export CLAUDE_CODE_DISABLE_TERMINAL_TITLE=1
+{{- if eq .chezmoi.hostname "zylo-vince-ruby-2" }}
 export VOLTA_FEATURE_PNPM=1
+{{- end }}
 {{- if eq .chezmoi.os "darwin"}}
 export XDG_CONFIG_HOME="$HOME/.config"
 {{- end }}

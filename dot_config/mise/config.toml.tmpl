@@ -1,0 +1,9 @@
+[settings]
+color_theme = "catppuccin"
+
+[tools]
+{{- if ne .chezmoi.hostname "zylo-vince-ruby-2" }}
+node = "26"
+pnpm = "12"
+{{- end }}
+php = "8.5"

@@ -1,6 +1,8 @@
+{{ if eq .chezmoi.hostname "zylo-vince-ruby-2" -}}
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
+{{ end -}}
 # Claude Code chalk caches its truecolor decision at module load (before
 # settings.json env block is read), so this must be exported pre-launch.
 # See https://github.com/anthropics/claude-code/issues/35148
