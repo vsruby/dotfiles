@@ -128,10 +128,15 @@ Favor breadth on animals — marsupials, birds, fish, insects, mythical creature
 2. Read the journal before that too. Call it N-2.
 3. Copy **only** `- [ ]` items from N-1, **verbatim, including their original `(YYYY-MM-DD)` suffix.** Checked items
    stay behind in the day they were completed.
+   - **Undated items in N-1 were added on N-1's day. Stamp them on the way forward:** append ` (YYYY-MM-DD)` using
+     N-1's date (from its filename). This is the only edit allowed to a rolled-forward TODO. After rolling forward,
+     **every** unchecked item in the new file's TODO block must end in a date suffix; verify this before writing.
+   - If an undated item also appears undated in N-2 (an earlier roll-forward missed it), use the date of the
+     **earliest** journal in which that text appears (`grep -lF` across `journal/`, sorted by filename) instead.
 4. **Drop detection:** any unchecked item present in N-2 but absent from N-1 was dropped without being checked off.
    Do not silently re-add or re-drop it — list it in `needs_decision`.
-5. Preserve ordering: dated items first, ascending by date (oldest at top); undated items (added that day) at the
-   bottom in the order they were added.
+5. Preserve ordering: ascending by date (oldest at top), with items stamped in this roll-forward placed among the
+   dated items by their new date. Only TODOs added today (Step 5) remain undated, at the bottom.
 
 ### Reporting stale items
 
@@ -141,7 +146,8 @@ many items are open, how many are over 30 days old, and the three oldest with th
 
 ## Step 5 — new and completed TODOs
 
-- New TODOs go at the bottom of the undated block, no date suffix.
+- New TODOs go at the bottom of the undated block, no date suffix. They get stamped with today's date when the next
+  journal rolls them forward (Step 4).
 - Completing one means flipping `- [ ]` to `- [x]` **in place** — do not move or re-sort it.
 - If `complete_todos` text matches zero items or more than one, do not guess. Put it in `needs_decision`.
 
