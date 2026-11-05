@@ -110,7 +110,7 @@ the `_No journal references yet_` placeholder if present.
 Then reconcile, since the journal scribe and this agent both write backlinks and either can miss one:
 
 ```bash
-grep -l '\[\[{Note Title}\]\]' ~/dev/captains-log/journal/*.md
+grep -rl '\[\[{Note Title}\]\]' ~/dev/captains-log/journal/
 ```
 
 Any journal file linking to this note whose entry is not in References is a missing backlink. Add the ones you can

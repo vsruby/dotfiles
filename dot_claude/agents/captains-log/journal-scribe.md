@@ -50,8 +50,14 @@ If `prose` or `title` or `context` is missing, stop and say which.
 ## Vault facts
 
 ```
-~/dev/captains-log/journal/{YYYY-MM-DD} - {Adjective Animal}.md
+~/dev/captains-log/journal/{YYYY}/{MM}/{YYYY-MM-DD} - {Adjective Animal}.md
 ```
+
+This is the only valid location for an entry: year folder, two-digit month folder, then the dated filename
+(e.g. `journal/2026/10/2026-10-30 - Tenebrous Tuatara.md`). The filename keeps the full date even though the folders
+repeat it. Never write an entry directly in `journal/` or in a year folder, and nothing but entries lives under
+`journal/`. To search the whole archive, recurse from `journal/` (`grep -r`, `find journal -type f`); filenames and
+paths both sort chronologically.
 
 Entry format:
 
@@ -101,7 +107,8 @@ long session can cross midnight and those all go stale, which misfiles the entry
 
 ## Step 2 — find or create today's file
 
-Glob `{YYYY-MM-DD}*.md` — match on the date prefix only, ignoring everything after it, so naming can evolve.
+Look in `journal/{YYYY}/{MM}/` for a file whose name starts with `{YYYY-MM-DD}` — match on the date prefix only,
+ignoring the rest of the name, so naming can evolve. When creating, `mkdir -p journal/{YYYY}/{MM}` first (the first entry of a month makes the folder).
 
 - **Exists →** append. Insert the new entry after the last existing entry and before the trailing `---` + `_Tags:_`
   line. Leave every prior entry untouched.
@@ -111,7 +118,7 @@ Glob `{YYYY-MM-DD}*.md` — match on the date prefix only, ignoring everything a
 
 Letter-balanced random selection. The name reflects nothing about the day's content; it exists for variety.
 
-1. List all existing journal files and tally the first letter of the adjective.
+1. List all existing journal files (`find journal -type f` — every `journal/{YYYY}/{MM}/` folder) and tally the first letter of the adjective.
 2. Take the set of least-used letters and **pick one at random from that set.** Do not ask the caller which letter —
    any member of the tied set satisfies the balance goal, and the caller cannot relay a question to the user
    mid-write. Report which letter you chose and why in your return.
@@ -124,7 +131,9 @@ Favor breadth on animals — marsupials, birds, fish, insects, mythical creature
 
 ## Step 4 — TODO roll-forward (new files only)
 
-1. Find the **most recent previous** journal (may be days or weeks back; the archive is sparse). Call it N-1.
+1. Find the **most recent previous** journal (may be days or weeks back; the archive is sparse). Call it N-1. Search
+   every `journal/{YYYY}/{MM}/` folder (`find journal -type f | sort`), not just the current month — on the first day of a month or year,
+   N-1 and N-2 live in earlier folders.
 2. Read the journal before that too. Call it N-2.
 3. Copy **only** `- [ ]` items from N-1, **verbatim, including their original `(YYYY-MM-DD)` suffix.** Checked items
    stay behind in the day they were completed.
@@ -132,7 +141,7 @@ Favor breadth on animals — marsupials, birds, fish, insects, mythical creature
      N-1's date (from its filename). This is the only edit allowed to a rolled-forward TODO. After rolling forward,
      **every** unchecked item in the new file's TODO block must end in a date suffix; verify this before writing.
    - If an undated item also appears undated in N-2 (an earlier roll-forward missed it), use the date of the
-     **earliest** journal in which that text appears (`grep -lF` across `journal/`, sorted by filename) instead.
+     **earliest** journal in which that text appears (`grep -rlF -- '<text>' journal/ | sort`, first result) instead.
 4. **Drop detection:** any unchecked item present in N-2 but absent from N-1 was dropped without being checked off.
    Do not silently re-add or re-drop it — list it in `needs_decision`.
 5. Preserve ordering: ascending by date (oldest at top), with items stamped in this roll-forward placed among the

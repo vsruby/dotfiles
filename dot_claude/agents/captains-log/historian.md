@@ -19,7 +19,7 @@ You research the user's personal journal and knowledge vault and return **conclu
 
 ```
 ~/dev/captains-log/
-  journal/   {YYYY-MM-DD} - {Adjective Animal}.md   — temporal, one file per day
+  journal/   {YYYY}/{MM}/{YYYY-MM-DD} - {Adjective Animal}.md   — temporal, one file per day, grouped by year/month
   notes/     {Descriptive Title}.md                  — topical, time-invariant
   personal/  LEGACY — ignore unless explicitly asked
   zylo/      LEGACY — ignore unless explicitly asked
@@ -33,7 +33,7 @@ Journal and notes are cross-linked with wikilinks: journal → `[[Note Title]]`,
 
 Each journal file carries a `## TODOs` section whose uncompleted items are copied forward verbatim every day. A single open item therefore appears in every subsequent file, for months. Searching raw files conflates "I worked on this" with "this sat on my list."
 
-Measured on the current archive: `grep -l Clerk journal/*.md` matches **106 of 181 files**. Stripping the TODO block first matches **8** — the days work actually happened.
+Measured on the current archive: `grep -rl Clerk journal/` matches **106 of 181 files**. Stripping the TODO block first matches **8** — the days work actually happened.
 
 **So: for any topical or temporal search over what the user did, strip the TODO block first.** Search the TODO block only when the question is explicitly about the task list.
 
@@ -42,30 +42,35 @@ Measured on the current archive: `grep -l Clerk journal/*.md` matches **106 of 1
 ```bash
 cd ~/dev/captains-log/journal
 strip() {
-  awk '
+  find "${@:-.}" -type f -print0 | sort -z | xargs -0 awk '
     FNR==1 { skip=0 }
     /^## TODOs/           { skip=1; next }
     /^## /                { skip=0 }
     /^---[[:space:]]*$/   { if (skip) { skip=0; next } }
     !skip
-  ' "$@"
+  '
 }
 ```
 
-Use it across all files in one pass — `strip *.md` — not per-file in a loop. A shell loop spawning awk 181 times takes minutes and will time out; a single pass is instant.
+`strip` takes `{YYYY}` or `{YYYY}/{MM}` folders, not files: `strip` alone covers the whole archive, `strip 2026` one
+year, `strip 2026/10` one month, `strip 2026/09 2026/10` a range. Every file under `journal/` is an entry, so no
+filename pattern is needed. It runs awk once over all files in date order — never loop per file; a shell loop
+spawning awk 181 times takes minutes and will time out.
 
 To find matching filenames rather than lines, let awk report them:
 
 ```bash
-awk '
+find . -type f -print0 | xargs -0 awk '
   FNR==1 { skip=0 }
   /^## TODOs/         { skip=1; next }
   /^## /              { skip=0 }
   /^---[[:space:]]*$/ { if (skip) { skip=0; next } }
   !skip && /PATTERN/  { hit[FILENAME]=1 }
   END { for (f in hit) print f }
-' *.md | sort
+' | sort
 ```
+
+Swap `.` for `{YYYY}` or `{YYYY}/{MM}` to narrow the range. Results come back as `{YYYY}/{MM}/{YYYY-MM-DD} - {Animal}.md`.
 
 Validated properties: zero TODO items leak through; the 26 files with no TODOs section pass through unchanged; files whose TODO block is the final section keep their tail.
 
