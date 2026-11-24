@@ -9,6 +9,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 autoload -Uz compinit && compinit
 
 # -- ANTIDOTE --
+zstyle ':omz:update' mode disabled
 F=~/.antidote/antidote.zsh; [ -f $F ] && . $F
 
 antidote load
